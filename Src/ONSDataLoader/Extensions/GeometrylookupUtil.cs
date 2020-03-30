@@ -14,14 +14,13 @@ namespace ONSLoader.Console.Extensions
             polyIndex.AddRange(crossreferences);
 
             data.ForEach(x => AddParents(x, polyIndex));
-
-            //.AsParallel()
-            //.WithMergeOptions(ParallelMergeOptions.AutoBuffered)
-            //.ForAll(x => AddParents(x, polyIndex));
         }
 
         public static GeoEntity AddParents(GeoEntity entity, PolygonIndex index)
         {
+            if (entity.Location == null)
+                return entity;
+
             var entities = index.Search(entity.Location);
 
             entity.Parents = entities.Select(x=> new GeoEntityId

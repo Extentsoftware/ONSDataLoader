@@ -65,7 +65,7 @@ namespace ONSLoader.Console
             var adminGeometries = _polygonLoader
                 .Load(_config.PolygonFiles);
 
-            _logger.LogInformation($"Loaded {adminGeometries.Count()} source records");
+            _logger.LogInformation($"Loaded {adminGeometries.Count} source records");
 
             // convert polydata into entities and lookup parents using xreferences
             var adminGeoEntities = FromGeometryData(adminGeometries).ToList();
@@ -83,7 +83,7 @@ namespace ONSLoader.Console
             var pointData = _pointLoader
                 .Load(_config.PointFiles);
             var postcodeDocs = FromGeometryData(pointData);
-            _logger.LogInformation($"Loaded {pointData.Count()} points");
+            _logger.LogInformation($"Loaded {pointData.Count} points");
 
             _logger.LogInformation($"Finding outcode parents using geometries");
             var outcodes = OutcodeGenerator.GenerateOutcodes(pointData);

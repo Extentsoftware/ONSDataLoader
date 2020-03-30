@@ -7,6 +7,9 @@ namespace ONSLoader.Console.Extensions
     {
         public static PolygonGeoShape GetPolygonGeoShape(Geometry geom)
         {
+            if (geom == null)
+                return null;
+
             return geom.GeometryType switch
             {
                 "MultiPolygon" => GeomUtils.GetPolygon(geom.Boundary),
@@ -17,6 +20,9 @@ namespace ONSLoader.Console.Extensions
 
         public static GeoLocation GetGeoLocation(Geometry geom)
         {
+            if (geom == null)
+                return null;
+
             return geom.GeometryType switch
             {
                 "Point" => new GeoLocation(geom.Coordinate.Y, geom.Coordinate.X),

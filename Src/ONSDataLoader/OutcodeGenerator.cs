@@ -11,19 +11,22 @@ namespace ONSLoader.Console
         {
             var outcodes = data.GroupBy(x => Outcode(x.Name));
             var fact = new GeometryFactory();
-            foreach (var outcode in outcodes.Where(x=>x.Key=="BR6"))
+            foreach (var outcode in outcodes)
             {
                 var coords = outcode.Where(x=>!(x.Geom.Coordinate.X ==0 && x.Geom.Coordinate.Y== 99.999999))
                     .Select(x => x.Geom.Coordinate).ToArray();
 
-                var coord = new Coordinate(coords.Average(x => x.X), coords.Average(x => x.Y));
+                Point coord = null;
+
+                if (coords.Any())
+                    coord = fact.CreatePoint(new Coordinate(coords.Average(x => x.X), coords.Average(x => x.Y)));
 
                 yield return new GeometryData
                 {
                     DataType = "Outcode",
                     Name = outcode.Key,
                     Reference = outcode.Key,
-                    Geom = fact.CreatePoint(coord)
+                    Geom = coord
                 };
             }
         }
