@@ -1,0 +1,10 @@
+**/launchSettings.json*
+*.cache
+*.log
+*.psess
+*.user
+*.user
+*.vspx
+**/.vs/*
+src/ONSDataLoader/bin/**
+src/ONSDataLoader/obj/**
