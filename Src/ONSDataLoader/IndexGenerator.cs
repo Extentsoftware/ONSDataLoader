@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using ONSLoader.Console.Extensions;
 using ONSLoader.Console.Model;
+using ONSLoader.Console.Patch;
 using ONSLoader.Console.Pnt;
 using ONSLoader.Console.Polygon;
 using ONSLoader.Console.XRef;
@@ -16,18 +17,21 @@ namespace ONSLoader.Console
         private readonly CrossReferenceLoader _crossReferenceLoader;
         private readonly PointLoader _pointLoader;
         private readonly IndexerConfig _config;
+        private readonly PatchLoader _patchLoader;
 
         public IndexGenerator(
             ILogger<IndexGenerator> logger,
             IndexerConfig config,
             PolygonLoader sourceLoader,
             PointLoader pointLoader,
+            PatchLoader patchLoader,
             CrossReferenceLoader crossReferenceLoader )
         {
             _logger = logger;
             _polygonLoader = sourceLoader;
             _crossReferenceLoader = crossReferenceLoader;
             _pointLoader = pointLoader;
+            _patchLoader = patchLoader;
             _config = config;
         }
 
@@ -52,6 +56,10 @@ namespace ONSLoader.Console
             _logger.LogInformation($"Loading cross references");
             var crossreferences = _crossReferenceLoader.Load(_config.CrossReferenceFiles);
             _logger.LogInformation($"Loaded {crossreferences.Count} cross references");
+
+            _logger.LogInformation($"Patching cross references");
+            var patchGeoms = _patchLoader.Load(_config.PatchFiles, crossreferences);
+            _logger.LogInformation($"Patching {crossreferences.Count} cross references");
 
             _logger.LogInformation($"Loading source records");
             var adminGeometries = _polygonLoader

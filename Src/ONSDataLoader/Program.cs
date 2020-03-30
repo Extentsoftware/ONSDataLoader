@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ONSLoader.Console.Elastic;
 using ONSLoader.Console.Model;
+using ONSLoader.Console.Patch;
 using ONSLoader.Console.Pnt;
 using ONSLoader.Console.Polygon;
 using ONSLoader.Console.XRef;
@@ -75,8 +76,8 @@ namespace ONSLoader.Console
             services.AddSingleton<CrossReferenceLoader>();
             services.AddSingleton<PointLoader>();
             services.AddSingleton<PolygonLoader>();
+            services.AddSingleton<PatchLoader>();            
             services.AddSingleton<ElasticIndexer>();
-            
 
             var builder = new ContainerBuilder();
 
